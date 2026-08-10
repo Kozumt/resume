@@ -1,0 +1,473 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spider Resume - John David Mendoza</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Work+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ink: #111827;
+            --red: #ed1c24;
+            --blue: #0754a3;
+            --paper: #ffffff;
+            --yellow: #ffd34e;
+            --night: #090d18;
+            --night-panel: #151b2b;
+            --night-muted: #b9c1d2;
+        }
+
+        * { box-sizing: border-box; }
+        html { 
+            scroll-behavior: smooth; 
+            scroll-padding-top: 90px;
+        }
+        
+        body {
+            margin: 0;
+            width: 100%;
+            color: var(--ink);
+            font-family: "Work Sans", sans-serif;
+            overflow-x: hidden;
+            transition: background .35s ease, color .35s ease;
+        }
+
+        body.night-mode { color: #f4f6ff; background: #0b0b0f !important; }
+        .comic-font { font-family: "Anton", sans-serif; }
+        .ink-border { border: 3px solid var(--ink); }
+        .ink-shadow { box-shadow: 7px 7px 0 var(--ink); }
+        
+        .dot-field {
+            background-image: radial-gradient(rgba(17,24,39,.22) 1.2px, transparent 1.2px);
+            background-size: 10px 10px;
+        }
+
+        .night-mode .ink-border { border-color: #f4f6ff; }
+        .night-mode .ink-shadow { box-shadow: 7px 7px 0 #f4f6ff; }
+        .night-mode .dot-field {
+            background-color: #121216 !important;
+            background-image: radial-gradient(rgba(255,255,255,.16) 1.2px, transparent 1.2px);
+        }
+
+        .site-header {
+            background: #ed1c24;
+            border-bottom: 3px solid var(--ink);
+            transition: background .35s ease, border-color .35s ease;
+        }
+        .night-mode .site-header { background: #16161c; border-color: #fdfdfd; }
+
+        .jd-logo {
+            background: #0754a3;
+            color: #ffffff;
+            transition: background-color .35s ease, color .35s ease, border-color .35s ease;
+        }
+        .night-mode .jd-logo {
+            background: #000000;
+            color: #ffffff;
+            border-color: #f4f6ff;
+        }
+
+        /* Updated nav-link styles to fill/block the grid area like custom buttons */
+        .nav-link {
+            position: relative;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .08em;
+            font-size: .78rem;
+            padding: 8px 14px;
+            border: 2px solid transparent;
+            border-radius: 4px;
+            transition: background-color .2s ease, border-color .2s ease, color .2s ease, transform .15s ease;
+        }
+        .nav-link:hover {
+            background: var(--yellow);
+            color: var(--ink) !important;
+            border-color: var(--ink);
+            transform: translateY(-2px);
+            box-shadow: 3px 3px 0 var(--ink);
+        }
+        .night-mode .nav-link:hover {
+            background: #ffd34e;
+            color: #111827 !important;
+            border-color: #f4f6ff;
+            box-shadow: 3px 3px 0 #f4f6ff;
+        }
+        .nav-link::after { display: none; } /* Removes the old bottom line indicator */
+
+        .hero-art {
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            isolation: isolate;
+        }
+        .hero-art::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(108deg, rgba(7,84,163,.96) 4%, rgba(7,84,163,.79) 49%, rgba(237,28,36,.38) 100%);
+            z-index: -1;
+            transition: background .35s ease;
+        }
+        .night-mode .hero-art::before {
+            background: linear-gradient(108deg, rgba(10,10,13,.98) 4%, rgba(25,25,32,.92) 52%, rgba(80,80,95,0.4) 100%);
+        }
+        .hero-art::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: .35;
+            background-image: radial-gradient(rgba(255,255,255,.65) 1px, transparent 1px);
+            background-size: 9px 9px;
+            mix-blend-mode: screen;
+            z-index: -1;
+        }
+
+        .spider-hanger {
+            position: absolute;
+            right: 7%;
+            top: -4px;
+            width: min(290px, 33vw);
+            height: 510px;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+            filter: drop-shadow(10px 16px 0 rgba(0,0,0,.3));
+            animation: hanger-sway 5s ease-in-out infinite alternate;
+            transform-origin: top center;
+        }
+        .spider-hanger img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center top;
+            transition: opacity .35s ease, transform .35s ease;
+        }
+        
+        .red-spider { opacity: 1; transform: translate(0px, -105px) scale(.77); }
+        .black-spider { opacity: 0; transform: translate(0px, 4px) scale(.96); transform-origin: center top; }
+        body.night-mode .red-spider { opacity: 0; }
+        body.night-mode .black-spider { opacity: 1; }
+
+        .profile-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4 / 5;
+        }
+        .profile-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: 2px solid #111827;
+            transition: opacity .35s ease;
+        }
+        .profile-day { opacity: 1; }
+        .profile-night { opacity: 0; }
+        body.night-mode .profile-day { opacity: 0; }
+        body.night-mode .profile-night { opacity: 1; }
+
+        .theme-switch {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            padding: 0;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            overflow: visible;
+            transition: transform .2s ease;
+        }
+        .theme-switch:hover { transform: scale(1.08); }
+        .theme-switch:focus-visible { outline: 4px solid var(--yellow); outline-offset: 6px; }
+
+        .theme-switch-icon {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            opacity: 0;
+            transition: opacity .3s ease;
+            pointer-events: none;
+        }
+
+        .theme-switch-icon.day-icon { opacity: 1; }
+        .night-mode .theme-switch-icon.day-icon { opacity: 0; }
+        .night-mode .theme-switch-icon.night-icon { opacity: 1; }
+
+        .theme-switch-icon img { width: 100%; height: 100%; object-fit: contain; border-radius: 50%; }
+
+        .hero-content { animation: slide-in .7s ease both; }
+        .reveal { animation: rise .65s ease both; }
+        
+        .experience-card { transition: transform .2s ease, box-shadow .2s ease, background .35s ease; }
+        .experience-card:hover { transform: translate(-4px, -4px); box-shadow: 10px 10px 0 var(--ink); }
+        .night-mode .experience-card:hover { box-shadow: 10px 10px 0 #f4f6ff; }
+        
+        .skill-pill { transition: transform .18s ease; }
+        .skill-pill:hover { transform: rotate(-2deg) translateY(-2px); }
+
+        .night-mode .day-section { background: transparent !important; color: #f4f6ff; }
+        .night-mode .night-card { background: #1c1c24 !important; color: #f4f6ff; }
+        .night-mode .night-copy { color: #ffffff !important; }
+        .night-mode .night-footer { background: #121216 !important; }
+        
+        .night-mode .profile-frame { background: #2b2b36 !important; }
+        .night-mode .fuel-card { background: rgba(25,25,32,.92) !important; color: #f4f6ff !important; }
+
+        .night-mode #skills { background: #0f0f13 !important; }
+        .night-mode #skills .skill-pill {
+            background: #2b2b36 !important;
+            color: #ffffff !important;
+            border: 2px solid #f4f6ff !important;
+        }
+
+        #intro {
+            position: relative;
+            background-image: url(spiders.jpeg);
+            background-size: cover;
+            background-position: center;
+        }
+        #intro::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.479);
+            z-index: 1;
+            transition: background-color .35s ease;
+        }
+        body.night-mode #intro::before {
+            background-color: rgba(11, 11, 15, 0.466);
+            background-image: url(spiders.jpeg);
+            background-size: cover;
+            background-position: center;
+        }
+        #intro > div {
+            position: relative;
+            z-index: 2;
+        }
+
+        button:focus-visible, a:focus-visible { outline: 4px solid var(--yellow); outline-offset: 4px; }
+
+        @keyframes hanger-sway { to { transform: rotate(3deg); } }
+        @keyframes slide-in { from { opacity: 0; transform: translateX(-24px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .spider-hanger { right: -42px; width: 235px; height: 420px; opacity: .58; }
+        }
+
+        @media (max-width: 520px) {
+            .spider-hanger { right: -78px; opacity: .35; }
+        }
+    </style>
+</head>
+
+<body data-template-id="page-root">
+
+    <header class="site-header w-full sticky top-0 z-50">
+        <nav class="w-full max-w-6xl mx-auto px-5 py-4 flex items-center justify-between gap-4" aria-label="Primary navigation">
+            <a href="#top" class="flex items-center gap-3 no-underline text-white">
+                <span class="w-10 h-10 rounded-full ink-border flex items-center justify-center comic-font text-xl jd-logo">JD</span>
+                <span class="comic-font tracking-wide text-white">John David Mendoza / Portfolio</span>
+            </a>
+            <div class="nav-links flex items-center gap-3">
+                <a class="nav-link text-white" href="#intro">Introduction</a>
+                <a class="nav-link text-white" href="#work">Experiences</a>
+                <a class="nav-link text-white" href="#skills">Skills</a>
+                <a class="nav-link text-white" href="#contact">Signal Me</a>
+            </div>
+            <button id="theme-toggle" type="button" class="theme-switch" aria-pressed="false" aria-label="Toggle theme">
+                <div class="theme-switch-icon day-icon">
+                    <img src="picture/Sticker-Red.jpg" alt="Red Spider-Man sticker">
+                </div>
+                <div class="theme-switch-icon night-icon">
+                    <img src="picture/Sticker-Black.jpg" alt="Black Spider-Man sticker">
+                </div>
+            </button>
+        </nav>
+    </header>
+
+    <main class="w-full">
+        <section id="top" class="hero-art relative w-full">
+            <div class="w-full max-w-6xl mx-auto min-h-[570px] px-5 py-16 flex items-center relative">
+                <div class="hero-content max-w-2xl relative z-10">
+                    <div class="night-card inline-block bg-[#ffd34e] text-[#111827] ink-border px-3 py-1 font-extrabold uppercase tracking-widest text-xs rotate-[-2deg]">Available for the next big experiences</div>
+                    <h1 class="comic-font text-white uppercase leading-[.88] text-5xl md:text-7xl mt-5 max-w-xl">Your friendly neighborhood employee.</h1>
+                    <p class="text-white mt-6 max-w-xl font-medium leading-relaxed">I'm John David Mendoza — a designer and digital problem-solver who turns complicated briefs into sharp, human-centered experiences.</p>
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <a href="#work" class="inline-flex items-center gap-2 bg-[#ed1c24] text-white ink-border ink-shadow px-5 py-3 uppercase font-extrabold tracking-wide hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all">
+                            <i data-lucide="crosshair" width="18" height="18"></i> <span>Explore Work</span>
+                        </a>
+                        <a href="#contact" class="inline-flex items-center gap-2 bg-[#0754a3] text-white ink-border px-5 py-3 uppercase font-extrabold tracking-wide hover:bg-[#ffd34e] hover:text-[#111827]">
+                            <i data-lucide="send" width="18" height="18"></i> <span>Let's Talk</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="spider-hanger" aria-hidden="true">
+                    <img src="picture/download.png" class="red-spider" alt="Spider-Man">
+                    <img src="picture/blackey.png" class="black-spider" alt="Spider-Man Black Suit">
+                </div>
+            </div>
+        </section>
+
+        <section id="intro" class="day-section w-full py-16 px-5">
+            <div class="w-full max-w-6xl mx-auto grid lg:grid-cols-[.9fr_1.4fr] gap-10 items-center">
+                <div class="reveal relative">
+                    <div class="absolute -left-4 -top-5 w-20 h-20 bg-[#0754a3] burst -z-0"></div>
+                    <div class="profile-frame relative z-10 bg-[#ed1c24] p-3 ink-border ink-shadow rotate-[-2deg] max-w-sm mx-auto duration-300">
+                        <div class="profile-container">
+                            <img src="picture/Beach.jpg" class="profile-day" loading="lazy" alt="John David Mendoza Profile Photo">
+                            <img src="picture/Dave.jpg" class="profile-night" loading="lazy" alt="John David Mendoza Night Profile Photo">
+                        </div>
+                    </div>
+                    <div class="relative night-card z-20 w-fit mx-auto -mt-5 bg-[#ed1c24] text-white ink-border px-4 py-2 font-bold uppercase text-xs tracking-wider rotate-[2deg] duration-300">John David Mendoza</div>
+                </div>
+                <div class="reveal">
+                    <p class="text-[#ed1c24] font-extrabold uppercase tracking-[.18em] text-sm">01 / About Me</p>
+                    <h2 class="comic-font text-4xl md:text-5xl uppercase leading-none mt-2">With great ideas comes great creativity.</h2>
+                    <p class="night-copy mt-5 leading-relaxed max-w-2xl font-medium">I design standout brand visuals, user-friendly interfaces, and aesthetics. My work combines bold ideas with careful craftsmanship to ensure every detail is practical, clear, and ready to use.</p>
+                    <div class="grid sm:grid-cols-3 gap-3 mt-8">
+                        <div class="night-card bg-[#ffd34e] ink-border p-4">
+                            <i data-lucide="map-pin" width="20" height="20" class="mb-3"></i>
+                            <p class="font-extrabold uppercase text-xs tracking-wider">Location</p>
+                            <p class="mt-1 font-semibold">Central Luzon, PH</p>
+                        </div>
+                        <div class="night-card bg-[#ffffff] ink-border p-4">
+                            <i data-lucide="zap" width="20" height="20" class="mb-3"></i>
+                            <p class="font-extrabold uppercase text-xs tracking-wider">Focus</p>
+                            <p class="mt-1 font-semibold">Design + Program</p>
+                        </div>
+                        <div class="night-card bg-[#0754a3] ink-border p-4 text-white">
+                            <i data-lucide="sparkles" width="20" height="20" class="mb-3"></i>
+                            <p class="font-extrabold uppercase text-xs tracking-wider">Fuel</p>
+                            <p class="mt-1 font-semibold">Sense of Purpose</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="work" class="dot-field w-full py-16 px-5">
+            <div class="w-full max-w-6xl mx-auto">
+                <div class="flex flex-wrap items-end justify-between gap-5 mb-9">
+                    <div>
+                        <p class="text-[#ed1c24] font-extrabold uppercase tracking-[.18em] text-sm">02 / Experiences</p>
+                        <h2 class="comic-font text-4xl md:text-5xl uppercase leading-none mt-2">Job Experiences</h2>
+                    </div>
+                    <span class="bg-[#ed1c24] text-white ink-border px-4 py-2 font-extrabold uppercase text-xs tracking-widest rotate-[2deg]">Case Files: Open</span>
+                </div>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <article class="experience-card night-card bg-[#3f3f3f] ink-border p-6">
+                        <span class="inline-flex w-10 h-10 items-center justify-center rounded-full bg-[#ed1c24] text-white border-2 border-[#111827] comic-font">01</span>
+                        <p class="mt-5 text-white font-extrabold uppercase tracking-wider text-xs">2025 — 2026</p>
+                        <h3 class="comic-font text-white text-2xl uppercase mt-2 leading-none">Frontend Web Developer</h3>
+                        <p class="mt-3 text-white font-bold">Independent Creative</p>
+                        <p class="night-copy text-white mt-4 leading-relaxed">Collaborated closely with UX/UI designers and backend engineers to translate wireframes into responsive, accessible, and high-performance user interfaces.</p>
+                    </article>
+                    <article class="experience-card night-card bg-[#ed1c24] ink-border p-6">
+                        <span class="inline-flex w-10 h-10 items-center justify-center rounded-full bg-[#0754a3] text-white border-2 border-[#111827] comic-font">02</span>
+                        <p class="mt-5 text-white font-extrabold uppercase tracking-wider text-xs">2024 — 2025</p>
+                        <h3 class="comic-font text-white text-2xl uppercase mt-2 leading-none">WANGJA Crew Member</h3>
+                        <p class="mt-3 text-white font-bold">Content &amp; Design Lead</p>
+                        <p class="night-copy text-white mt-4 leading-relaxed">Collaborated effectively with team members to support daily operations in a fast-paced environment.</p>
+                    </article>
+                    <article class="experience-card night-card bg-[#0754a3] text-white ink-border p-6">
+                        <span class="inline-flex w-10 h-10 items-center justify-center rounded-full bg-black text-white border-2 border-white comic-font">03</span>
+                        <p class="mt-5 font-extrabold uppercase tracking-wider text-xs">2020 — 2022</p>
+                        <h3 class="comic-font text-2xl uppercase mt-2 leading-none">Experience Maker</h3>
+                        <p class="mt-3 font-bold">Junior Designer</p>
+                        <p class="night-copy mt-4 leading-relaxed">Supported cross-functional teams by turning rough concepts into polished visual experiences.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="w-full bg-[#111827] text-white py-16 px-5">
+            <div class="w-full max-w-6xl mx-auto grid lg:grid-cols-[.8fr_1.5fr] gap-10">
+                <div>
+                    <p class="text-[#ffd34e] font-extrabold uppercase tracking-[.18em] text-sm">03 / Skill Set</p>
+                    <h2 class="comic-font text-4xl md:text-5xl uppercase leading-none mt-2">What I bring to the industry.</h2>
+                    <p class="mt-5 leading-relaxed max-w-sm">A flexible toolkit for producing creative ideas, structured systems, and work deserving of a second look.</p>
+                </div>
+                <div class="grid sm:grid-cols-2 gap-4 content-start">
+                    <div class="night-card bg-[#ed1c24] ink-border ink-shadow border-white p-5">
+                        <h3 class="comic-font text-xl uppercase">Design Sense</h3>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Design Systems</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Prototyping</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Frontend Fundamentals</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Backend & APIs</span>
+                        </div>
+                    </div>
+                    <div class="night-card bg-[#0754a3] ink-border ink-shadow border-white p-5">
+                        <h3 class="comic-font text-xl uppercase">Human Skills</h3>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Collaboration</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Clear communication</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Problem-Solving</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Time Management</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Ethical Awareness</span>
+                        </div>
+                    </div>
+                    <div class="night-card bg-[#1a323e] ink-border ink-shadow border-white p-5 sm:col-span-2">
+                        <h3 class="comic-font text-xl uppercase">Education</h3>
+                        <div class="flex flex-wrap gap-2 mt-4">
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">College | 2024 - Present</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Senior High School | 2022 - 2024</span>
+                            <span class="skill-pill bg-[#ffd34e] text-[#111827] px-3 py-1.5 font-bold text-sm border-2 border-[#111827]">Junior High School | 2018 - 2022</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer id="contact" class="night-footer w-full bg-[#ed1c24] px-5 py-14">
+            <div class="w-full max-w-6xl mx-auto grid md:grid-cols-[1.5fr_1fr] gap-10 items-end">
+                <div>
+                    <p class="text-[#ffd34e] font-extrabold uppercase tracking-[.18em] text-sm">04 / Send a Signal</p>
+                    <h2 class="comic-font text-4xl md:text-5xl text-white uppercase leading-none mt-2">Let's make something worth remembering.</h2>
+                    <p class="text-white mt-5 leading-relaxed max-w-xl">Have a project, position, or creative challenge in mind? My inbox is open for collaborations that need equal parts strategy and spark.</p>
+                </div>
+                <aside class="night-card bg-[#ffffff] ink-border ink-shadow p-6">
+                    <h3 class="comic-font text-xl uppercase">Your Next Move</h3>
+                    <a class="block mt-4 font-extrabold underline underline-offset-4 break-all text-[#0754a3]" href="mailto:johndavidmendoza150@gmail.com">johndavidmendoza150@gmail.com</a>
+                    
+                    <a class="block mt-4 font-extrabold underline underline-offset-4 break-all text-[#0754a3]" href="https://www.facebook.com/johndavid.mendoza.501/">FB: John David Mendoza</a>
+                    <p class="mt-3 font-semibold">Central Luzon, Philippines</p>
+                    <p class="night-card bg-[#ffd34e] ink-border px-3 py-2 font-bold text-[#111827] text-sm text-center">Open to new opportunities</p>
+                </aside>
+            </div>
+            <div class="w-full max-w-6xl mx-auto border-t-2 border-[#111827] mt-12 pt-5 flex flex-wrap justify-between gap-3 text-white">
+                <p class="font-bold text-sm">&copy; 2026 John David Mendoza. Built with courage, coffee, and creative.</p>
+                <a href="#top" class="font-extrabold text-sm uppercase tracking-widest hover:text-[#ffd34e]">Back to top &uarr;</a>
+            </div>
+        </footer>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            lucide.createIcons();
+            const toggle = document.getElementById("theme-toggle");
+            toggle.addEventListener("click", () => {
+                const isNight = document.body.classList.toggle("night-mode");
+                toggle.setAttribute("aria-pressed", String(isNight));
+            });
+        });
+    </script>
+</body>
+</html>
